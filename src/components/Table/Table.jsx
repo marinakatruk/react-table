@@ -2,7 +2,12 @@ import React from 'react'
 import styles from './Table.module.scss'
 import Pagination from '../Pagination/Pagination'
 
-const Table = ({ tableData, rowsPerPage, totalRows, paginate }) => {
+const Table = ({ tableData, usersPerPage, totalUsers, paginate, selectUser }) => {
+
+    const selectRow = (event) => {
+        const id = event.currentTarget.id;
+        selectUser(id);
+    };
 
 
     return (
@@ -20,7 +25,7 @@ const Table = ({ tableData, rowsPerPage, totalRows, paginate }) => {
 
                     {
                         tableData.map((item, i) => (
-                            <tr key={i} className={styles.trow}>
+                            <tr key={i} className={styles.trow} id={item.id} onClick={selectRow}>
                                 <td>{item.id}</td>
                                 <td>{item.firstName}</td>
                                 <td>{item.lastName}</td>
@@ -34,7 +39,7 @@ const Table = ({ tableData, rowsPerPage, totalRows, paginate }) => {
             </table>
         </div>
 
-            <Pagination rowsPerPage={rowsPerPage} totalRows={totalRows} paginate={paginate}/>
+            <Pagination usersPerPage={usersPerPage} totalUsers={totalUsers} paginate={paginate}/>
 
             
         </div>

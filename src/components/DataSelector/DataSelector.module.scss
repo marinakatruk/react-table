@@ -1,0 +1,37 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:  #98FB98;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.selector {
+    margin-left: 10px;
+    border-radius: 5px;
+    height: 25px;
+    padding: 0px 10px;
+}
+
+.button {
+    margin-top: 50px;
+    font-size: 18px;
+    background-color:  #32CD32;
+    color: #696969;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+        color: #ffffff;
+    }
+
+    &:disabled {
+        background-color: #D3D3D3;
+        cursor: auto;
+    }
+
+}
+

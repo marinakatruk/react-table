@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from './Pagination.module.scss'
 
-const Pagination = ({ rowsPerPage, totalRows , paginate }) => {
+const Pagination = ({ usersPerPage, totalUsers , paginate }) => {
 
     const pageNumbers = [];
 
-    for (let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i+=1) {
+    for (let i = 1; i <= Math.ceil(totalUsers / usersPerPage); i+=1) {
         pageNumbers.push(i);
     }
 
