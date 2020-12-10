@@ -1,0 +1,22 @@
+.pagination {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
+
+.item {
+    border-bottom: 1px solid #98FB98;
+    margin-right: 5px;
+}
+
+.link {
+    display: inline-block;
+    text-decoration: none;
+    color: #696969;
+    padding: 5px;
+
+
+    &:hover {
+        color: #98FB98;
+    }
+}

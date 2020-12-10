@@ -1,0 +1,23 @@
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font: {
+        family: Roboto, sans-serif;
+        size: 16px;
+    }
+}
+
+.status {
+    font: {
+        font-weight: 800;
+        size: 24px;
+    }
+    background-color: #98FB98;
+    padding: 7px;
+    border-radius: 10px;
+}
+
