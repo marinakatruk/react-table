@@ -9,7 +9,8 @@ const UserBlock = ({ user }) => {
     return (
         <div className={styles.container}>
             <p>Selected user: <b>{name}</b></p>
-            <p>Description: <textarea defaultValue={user.description}></textarea></p>
+            <p>Description:</p>
+            <textarea defaultValue={user.description}></textarea>
             <p>Address: <b>{address.streetAddress}</b></p>
             <p>City: <b>{address.city}</b></p>
             <p>State: <b>{address.state}</b></p>

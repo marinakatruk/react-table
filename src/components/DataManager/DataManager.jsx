@@ -11,6 +11,8 @@ const DataManager = ({ dataType }) => {
     const [usersPerPage] = useState(40);
     const [isUserSelected, setIsUserSelected] = useState(false);
     const [selectedUser, setSelectedUser] = useState('');
+    const [isFiltered, setIsFiltered] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         let dataUrl;
@@ -39,7 +41,10 @@ const DataManager = ({ dataType }) => {
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentData = data.slice(indexOfFirstUser, indexOfLastUser);
+    const currentData = isFiltered ? filteredData.slice(indexOfFirstUser, indexOfLastUser)
+        : data.slice(indexOfFirstUser, indexOfLastUser);
+
+    console.log(currentData);
 
     //Меняем текущую страницу
 
@@ -57,6 +62,26 @@ const DataManager = ({ dataType }) => {
         console.log(selectedOne);
         setSelectedUser(selectedOne);
         setIsUserSelected(true);
+    };
+
+
+    //Фильтр-поиск данных
+    const dataSearch = (str) => {
+        if (str !== '') {
+            const newData = data.filter(user => {
+                const userDataToString = user.id + user.firstName + user.lastName + user.email + user.phone;
+                console.log(userDataToString);
+                return userDataToString.toLowerCase().includes(str.toLowerCase());
+            })
+            setFilteredData(newData);
+            setIsFiltered(true);
+        }
+    }
+
+    //Отмена поиска
+    const cancelSearch = () => {
+        setIsFiltered(false);
+        setFilteredData([]);
     }
 
     return (
@@ -64,9 +89,11 @@ const DataManager = ({ dataType }) => {
             {loading ? <div className={styles.status}>Loading...</div>
             : <Table tableData={currentData}
                 usersPerPage={usersPerPage}
-                totalUsers={data.length}
+                totalUsers={isFiltered ? filteredData.length : data.length}
                 paginate={paginate}
                 selectUser={selectUser}
+                dataSearch={dataSearch}
+                cancelSearch={cancelSearch}
             />}
 
             {isUserSelected ? <UserBlock user={selectedUser}/> : ''}

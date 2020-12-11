@@ -1,0 +1,37 @@
+.form {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input {
+    border: 1px solid #696969;
+    border-radius: 4px;
+    width: 120px;
+    height: 20px;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+.button {
+    border: none;
+    border-radius: 4px;
+    height: 20px;
+    background-color: #32CD32;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &:hover {
+        color: #ffffff;
+    }
+}
+
+.cancel {
+    position: absolute;
+    top: 3px;
+    left: 106px;
+    padding: 0 2px;
+    background-color: #ffffff;
+    border: none;
+    color: red;
+    cursor: pointer;
+}

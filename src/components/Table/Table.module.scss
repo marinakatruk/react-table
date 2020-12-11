@@ -5,6 +5,25 @@
     align-items: center;
 }
 
+.tools {
+    display: flex;
+    justify-content: space-between;
+    width: 610px;
+}
+
+.button {
+    border: none;
+    border-radius: 4px;
+    height: 20px;
+    background-color: #FF7F50;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &:hover {
+        color: #ffffff;
+    }
+}
+
 .tableBox {
     padding: 20px;
     background-color: #98FB98;
