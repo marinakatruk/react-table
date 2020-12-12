@@ -2,23 +2,44 @@ import React from 'react'
 import styles from './Table.module.scss'
 import Pagination from '../Pagination/Pagination'
 import SearchBar from '../SearchBar/SearchBar'
+import UserConstructor from '../UserConstructor/UserConstructor'
 
-const Table = ({ tableData, usersPerPage, totalUsers, paginate, selectUser, dataSearch, cancelSearch }) => {
+const Table = ({
+    tableData,
+    usersPerPage,
+    totalUsers,
+    paginate,
+    selectUser,
+    dataSearch,
+    cancelSearch,
+    isConstructorOpened,
+    openConstructor,
+    closeConstructor,
+    addUser
+}) => {
 
+    
     const selectRow = (event) => {
         const id = event.currentTarget.id;
+        console.log(event.currentTarget);
+        console.log(id);
         selectUser(id);
     };
-
 
 
     return (
         <div className={styles.container}>
             <div className={styles.tools}>
                 <SearchBar dataSearch={dataSearch} cancelSearch={cancelSearch} />
-                <button type="button" className={styles.button}>Add user</button>
+                <button type="button"
+                    onClick={openConstructor}
+                    className={styles.button}
+                >
+                    Add user
+                </button>
             </div>
             <div className={styles.tableBox}>
+                {isConstructorOpened ? <UserConstructor closeConstructor={closeConstructor} addUser={addUser} /> : ''}
                 <table>
                     <tbody>
                         <tr className={styles.thead}>

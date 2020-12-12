@@ -13,6 +13,7 @@ const DataManager = ({ dataType }) => {
     const [selectedUser, setSelectedUser] = useState('');
     const [isFiltered, setIsFiltered] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
+    const [isConstructorOpened, setIsConstructorOpened] = useState(false);
 
     useEffect(() => {
         let dataUrl;
@@ -37,7 +38,7 @@ const DataManager = ({ dataType }) => {
         fetchData();
     },[dataType]);
 
-    //Выводим данные для каждой страницы
+    //Вывод данных для каждой страницы
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -46,7 +47,7 @@ const DataManager = ({ dataType }) => {
 
     console.log(currentData);
 
-    //Меняем текущую страницу
+    //Смена текущей страницы
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -55,7 +56,7 @@ const DataManager = ({ dataType }) => {
         const users = data;
         let selectedOne;
         for (let user of users) {
-            if (user.id === Number(id)) {
+            if (Number(user.id) === Number(id)) {
                 selectedOne = user;
             }     
         }
@@ -84,6 +85,26 @@ const DataManager = ({ dataType }) => {
         setFilteredData([]);
     }
 
+    //Открыть, закрыть форму добавления нового пользователя
+
+    const openConstructor = () => {
+        setIsConstructorOpened(true)
+    };
+
+    const closeConstructor = () => {
+        setIsConstructorOpened(false);
+    };
+
+    //Добавить пользователя
+    const addUser = (obj) => {
+        const currentData = data;
+        currentData.unshift(obj);
+        console.log(data);
+        console.log(currentData);
+        setData(currentData);
+        setIsConstructorOpened(false);
+    };
+
     return (
         <div>
             {loading ? <div className={styles.status}>Loading...</div>
@@ -94,6 +115,10 @@ const DataManager = ({ dataType }) => {
                 selectUser={selectUser}
                 dataSearch={dataSearch}
                 cancelSearch={cancelSearch}
+                isConstructorOpened={isConstructorOpened}
+                openConstructor={openConstructor}
+                closeConstructor={closeConstructor}
+                addUser={addUser}
             />}
 
             {isUserSelected ? <UserBlock user={selectedUser}/> : ''}

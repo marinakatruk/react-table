@@ -22,12 +22,17 @@
     &:hover {
         color: #ffffff;
     }
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .tableBox {
     padding: 20px;
     background-color: #98FB98;
     border-radius: 10px;
+    position: relative;
 
     table {
         background-color: #ffffff;
