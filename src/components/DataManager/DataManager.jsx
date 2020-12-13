@@ -14,6 +14,13 @@ const DataManager = ({ dataType }) => {
     const [isFiltered, setIsFiltered] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
     const [isConstructorOpened, setIsConstructorOpened] = useState(false);
+    const [sortDirection, setSortDirection] = useState({
+        id: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: ''
+    });
 
     useEffect(() => {
         let dataUrl;
@@ -44,8 +51,9 @@ const DataManager = ({ dataType }) => {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentData = isFiltered ? filteredData.slice(indexOfFirstUser, indexOfLastUser)
         : data.slice(indexOfFirstUser, indexOfLastUser);
-
+   
     console.log(currentData);
+
 
     //Смена текущей страницы
 
@@ -97,13 +105,62 @@ const DataManager = ({ dataType }) => {
 
     //Добавить пользователя
     const addUser = (obj) => {
-        const currentData = data;
+        const currentData = [...data];
         currentData.unshift(obj);
-        console.log(data);
-        console.log(currentData);
         setData(currentData);
         setIsConstructorOpened(false);
     };
+
+    //Сортировка столбца
+    const sortBy = (name) => {
+        const dataForSort = [...data];
+        if (name === 'id') {
+            dataForSort.sort((a, b) => (
+                sortDirection[name] === '' || sortDirection[name] === 'desc'
+                ? a[name] - b[name] : b[name] - a[name]
+            ));
+        } else if (name === 'phone') {
+            dataForSort.sort((a, b) => {
+                const phoneA = phoneToNumber(a[name]);
+                const phoneB = phoneToNumber(b[name]);
+                return sortDirection[name] === '' || sortDirection[name] === 'desc'
+                ? phoneA-phoneB : phoneB-phoneA;
+            })
+        } else {
+            dataForSort.sort((a, b) => {
+                const nameA = a[name].toLowerCase();
+                const nameB = b[name].toLowerCase();
+                if (nameA < nameB) {
+                    return sortDirection[name] === '' || sortDirection[name] === 'desc'
+                    ? -1 : 1;
+                } else if (nameA > nameB) {
+                    return sortDirection[name] === '' || sortDirection[name] === 'desc'
+                    ? 1 : -1;
+                } else return 0;
+            })
+        }
+        setData(dataForSort);
+        let direction = {
+            id: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: ''
+        }
+        direction[name] = sortDirection[name] === '' || sortDirection[name] === 'desc'
+        ? 'asc' : 'desc';
+        setSortDirection(direction);
+    }
+
+
+    // Телефон в число для сортировки
+    const phoneToNumber = (str) => {
+        const arr = str.split('');
+        const newArr = arr.filter(sym => {
+            return Number(sym) === +sym;
+        })
+        return Number(newArr.join(''));
+    }
 
     return (
         <div>
@@ -119,6 +176,8 @@ const DataManager = ({ dataType }) => {
                 openConstructor={openConstructor}
                 closeConstructor={closeConstructor}
                 addUser={addUser}
+                sortBy={sortBy}
+                sortDirection={sortDirection}
             />}
 
             {isUserSelected ? <UserBlock user={selectedUser}/> : ''}

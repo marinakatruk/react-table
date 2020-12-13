@@ -14,7 +14,11 @@ const UserConstructor = ( { closeConstructor, addUser }) => {
     const handleChange = (event) => {
         const { name, value } = event.target;
         let newUser = Object.assign({}, user);
-        newUser[name] = value;
+        if (name === 'id') {
+            newUser[name] = Number(value);
+        } else {
+            newUser[name] = value;
+        }
         setUser(newUser);
     };
 

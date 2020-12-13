@@ -38,19 +38,88 @@
         background-color: #ffffff;
         border-collapse: collapse;
         border: 2px solid #696969;
+        min-width: 610px;
     }
 }
 
 .thead th {
     border: 2px solid #696969;
-    padding: 7px;
-    text-align: start;
     box-sizing: border-box;
+    position: relative;
+}
+
+.headButton{
+    background: none;
+    font: {
+        family: inherit;
+        size: inherit;
+        weight: 800;
+    }
+    border: none;
+    width: 100%;
+    height: 100%;
+    text-align: start;
+    padding: 7px;
+    cursor: pointer;
 }
 
 .trow td {
     border: 1px solid #696969;
     padding: 7px;
     box-sizing: border-box;
+}
+
+.up {
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+
+    div {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: 7px;
+            left: 1px;
+            background-color: #006400;
+            transform: rotate(45deg);
+        }
+
+    }
+}
+
+.down {
+    position: absolute;
+    top: 15px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+
+    div {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: -5px;
+            left: 1px;
+            background-color: #006400;
+            transform: rotate(45deg);
+        }
+
+    }
 }
 
