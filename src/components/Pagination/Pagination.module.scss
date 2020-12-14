@@ -7,6 +7,7 @@
 .item {
     border-bottom: 1px solid #98FB98;
     margin-right: 5px;
+
 }
 
 .link {
@@ -20,9 +21,8 @@
         color: #98FB98;
     }
 
-    &:active {
+    &:active, &:visited, &:focus {
         background-color: #98FB98;
-        color: #ffffff;
     }
 
 }

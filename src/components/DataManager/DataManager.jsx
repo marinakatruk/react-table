@@ -7,6 +7,10 @@ import UserBlock from '../UserBlock/UserBlock'
 const DataManager = ({ dataType }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({
+        errorMessage: '',
+        isError: false
+    })
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(40);
     const [isUserSelected, setIsUserSelected] = useState(false);
@@ -25,10 +29,10 @@ const DataManager = ({ dataType }) => {
     useEffect(() => {
         let dataUrl;
         switch(dataType) {
-            case 'smallData':
+            case 'small':
                 dataUrl = 'http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}';
                 break;
-            case 'bigData':
+            case 'big':
                 dataUrl = 'http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}';
                 break;
             default:
@@ -37,10 +41,32 @@ const DataManager = ({ dataType }) => {
         
         const fetchData = async() => {
             setLoading(true);
-            const resp = await axios.get(dataUrl);
-            const fetchedData = resp.data;
-            setData(fetchedData);
-            setLoading(false);
+            try {
+                const resp = await axios.get(dataUrl);
+                const fetchedData = resp.data;
+                setData(fetchedData);
+                setLoading(false);
+            } catch (error) {
+                if (error.response) {
+                    setErrors({
+                        errorMessage: 'Error status: ' + error.response.status,
+                        isError: true
+                    })
+                    setLoading(false);
+                } else if (error.request) {
+                    setErrors({
+                        errorMessage: 'Error status: No response',
+                        isError: true
+                    })
+                    setLoading(false);
+                } else {
+                    setErrors({
+                        errorMessage: 'Error status: ' + error.message,
+                        isError: true
+                    })
+                    setLoading(false);
+                }
+            }  
         }
         fetchData();
     },[dataType]);
@@ -60,11 +86,11 @@ const DataManager = ({ dataType }) => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     //Выбран пользователь
-    const selectUser = (id) => {
+    const selectUser = (email) => {
         const users = data;
         let selectedOne;
         for (let user of users) {
-            if (Number(user.id) === Number(id)) {
+            if (user.email === email) {
                 selectedOne = user;
             }     
         }
@@ -162,27 +188,40 @@ const DataManager = ({ dataType }) => {
         return Number(newArr.join(''));
     }
 
-    return (
-        <div>
-            {loading ? <div className={styles.status}>Loading...</div>
-            : <Table tableData={currentData}
-                usersPerPage={usersPerPage}
-                totalUsers={isFiltered ? filteredData.length : data.length}
-                paginate={paginate}
-                selectUser={selectUser}
-                dataSearch={dataSearch}
-                cancelSearch={cancelSearch}
-                isConstructorOpened={isConstructorOpened}
-                openConstructor={openConstructor}
-                closeConstructor={closeConstructor}
-                addUser={addUser}
-                sortBy={sortBy}
-                sortDirection={sortDirection}
-            />}
-
-            {isUserSelected ? <UserBlock user={selectedUser}/> : ''}
-        </div>
-    )
+    if (loading) {
+        return (
+            <div>
+                <h1 className={styles.status}>Loading...</h1>
+            </div>
+        )
+    } else if (errors.isError) {
+        return (
+            <div>
+                <h2 className={styles.error}>{errors.errorMessage}</h2>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <Table tableData={currentData}
+                    usersPerPage={usersPerPage}
+                    totalUsers={isFiltered ? filteredData.length : data.length}
+                    paginate={paginate}
+                    selectUser={selectUser}
+                    dataSearch={dataSearch}
+                    cancelSearch={cancelSearch}
+                    isConstructorOpened={isConstructorOpened}
+                    openConstructor={openConstructor}
+                    closeConstructor={closeConstructor}
+                    addUser={addUser}
+                    sortBy={sortBy}
+                    sortDirection={sortDirection}
+                />
+    
+                {isUserSelected ? <UserBlock user={selectedUser}/> : ''}
+            </div>
+        )
+    }
 }
 
 export default DataManager;

@@ -95,7 +95,7 @@ const Table = ({ tableData,
 
                         {
                             tableData.map((item, i) => (
-                                <tr key={i} className={styles.trow} id={item.id} onClick={selectRow}>
+                                <tr key={i} className={styles.trow} id={item.email} onClick={selectRow}>
                                     <td>{item.id}</td>
                                     <td>{item.firstName}</td>
                                     <td>{item.lastName}</td>

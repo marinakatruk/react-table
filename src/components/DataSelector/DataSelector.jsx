@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from './DataSelector.module.scss'
 
 const DataSelector = ({ selectData }) => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState('small');
 
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -10,22 +10,21 @@ const DataSelector = ({ selectData }) => {
 
     const submitForm = () => {
         selectData(value);
-        setValue('');
+        setValue('small');
     }
+    console.log(value);
 
     return (
         <form className={styles.form}>
             <label>
-                Please select the data:
+                Please select the amount of data:
                 <select value={value} onChange={handleChange} className={styles.selector}>
-                    <option value=""></option>
-                    <option value="smallData">Small Data</option>
-                    <option value="bigData">Big Data</option>
+                    <option value="small">Small</option>
+                    <option value="big">Big</option>
                 </select>
             </label>
             <input className={styles.button}
                 type="button"
-                disabled={value === ''}
                 value="Load"
                 onClick={submitForm}/>
         </form>

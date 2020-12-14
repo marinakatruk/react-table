@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './UserConstructor.module.scss'
 
 const UserConstructor = ( { closeConstructor, addUser }) => {
@@ -10,6 +10,21 @@ const UserConstructor = ( { closeConstructor, addUser }) => {
         email: '',
         phone: ''
     })
+    const [isValid, setIsValid] = useState(false);
+
+    useEffect(() => {
+        checkEmptyFields(user);
+    });
+
+    const checkEmptyFields = (obj) => {
+        let result = true;
+        for (let fieldName in obj) {
+            if (obj[fieldName] === '') {
+                result = false;
+            }
+        }
+        setIsValid(result);
+    }
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -21,6 +36,7 @@ const UserConstructor = ( { closeConstructor, addUser }) => {
         }
         setUser(newUser);
     };
+
 
     const submitForm = () => {
         addUser(user);
@@ -103,12 +119,13 @@ const UserConstructor = ( { closeConstructor, addUser }) => {
                         // disabled={!isValid}
                         value="Add"
                         onClick={submitForm}
-                        className={styles.submit} 
+                        className={styles.submit}
+                        disabled={!isValid}
                     />
                     <input type="button"
                         value="x"
                         onClick={cancel}
-                        className={styles.cancel} 
+                        className={styles.cancel}
                     />
                 </form>
             </div>
