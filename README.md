@@ -1,2 +1,2 @@
 # react-table
-## preview: react-table.katruk.ru
+## preview: http://react-table.katruk.ru/
